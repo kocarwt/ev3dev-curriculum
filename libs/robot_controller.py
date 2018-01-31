@@ -11,13 +11,29 @@
   could be called.  That way it's a generic action that could be used in any task.
 """
 
+
 import ev3dev.ev3 as ev3
+import robot_controller as robo
 import math
 import time
 
 
+left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+assert left_motor.connected
+assert right_motor.connected
 class Snatch3r(object):
-    """Commands for the Snatch3r robot that might be useful in many different programs."""
-    
-    # TODO: Implement the Snatch3r class as needed when working the sandox exercises
-    # (and delete these comments)
+    'This is called by m3_drive_inches_via_library and uses its inputs to tell the robot how fast to go and how far using a class def'
+    def drive_inches(self, distance, speed):
+        sp = speed
+        deg = distance * 90
+        left_motor.run_to_rel_pos(position_sp=deg, speed_sp=sp, stop_action=ev3.Motor.STOP_ACTION_BRAKE)
+        right_motor.run_to_rel_pos(position_sp=deg, speed_sp=sp, stop_action=ev3.Motor.STOP_ACTION_BRAKE)
+        left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+
+
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+
