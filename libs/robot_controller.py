@@ -36,24 +36,24 @@ class Snatch3r(object):
         time_s = 1
         while time_s != 0:
             if degrees_to_turn > 0:
-                left_motor.run_to_rel_pos(speed_sp=-turn_speed_sp,position_sp=-degrees_to_turn,
+                left_motor.run_to_rel_pos(speed_sp=turn_speed_sp,position_sp=-degrees_to_turn*4.3,
                                           stop_action=ev3.Motor.STOP_ACTION_BRAKE)
-                right_motor.run_to_rel_pos(speed_sp=turn_speed_sp,position_sp=degrees_to_turn,
+                right_motor.run_to_rel_pos(speed_sp=turn_speed_sp,position_sp=degrees_to_turn*4.3,
                                            stop_action=ev3.Motor.STOP_ACTION_BRAKE)
                 left_motor.wait_while(ev3.Motor.STATE_RUNNING)
                 right_motor.wait_while(ev3.Motor.STATE_RUNNING)
                 ev3.Sound.beep().wait()
-                break
+                time_s=0
 
-            else:
-                left_motor.run_to_rel_pos(speed_sp=turn_speed_sp,position_sp=degrees_to_turn,
+            elif degrees_to_turn < 0:
+                left_motor.run_to_rel_pos(speed_sp=turn_speed_sp,position_sp=-degrees_to_turn*4.3,
                                           stop_action=ev3.Motor.STOP_ACTION_BRAKE)
-                right_motor.run_to_rel_pos(speed_sp=-turn_speed_sp, position_sp=-degrees_to_turn,
+                right_motor.run_to_rel_pos(speed_sp=turn_speed_sp, position_sp=degrees_to_turn*4.3,
                                            stop_action=ev3.Motor.STOP_ACTION_BRAKE)
                 left_motor.wait_while(ev3.Motor.STATE_RUNNING)
                 right_motor.wait_while(ev3.Motor.STATE_RUNNING)
                 ev3.Sound.beep().wait()
-                break
+                time_s=0
 
 
 # ----------------------------------------------------------------------

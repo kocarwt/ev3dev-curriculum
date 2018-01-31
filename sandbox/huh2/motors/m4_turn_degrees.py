@@ -68,7 +68,7 @@ def main():
         speed_deg_per_second = int(input("Speed (0 to 900 dps): "))
         if speed_deg_per_second == 0:
             break
-        degrees_to_turn = int(input("degrees_to_turn: "))*4
+        degrees_to_turn = int(input("degrees_to_turn: "))
         if degrees_to_turn == 0:
             break
 
