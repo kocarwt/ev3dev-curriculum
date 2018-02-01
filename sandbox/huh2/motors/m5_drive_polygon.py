@@ -10,6 +10,7 @@ Authors: David Fisher and PUT_YOUR_NAME_HERE.
 
 import ev3dev.ev3 as ev3
 import robot_controller as robo
+import time
 
 
 def main():
@@ -28,11 +29,17 @@ def main():
         # Tip for later, try a negative value for Number of sides: to drive CW around the polygon instead of CCW.
         if sides == 0:
             break
-        turn_amount = 360 / sides
+        turn_amount = 180-((180+((sides-3)*180))/ sides)
 
         edge_length_in = int(input("Length of each edge (inches): "))
         if edge_length_in == 0:
             break
+        sleep = edge_length_in/(0.12*speed_deg_per_second)
+        for k in range(sides):
+            robot.drive_inches(edge_length_in,speed_deg_per_second)
+            time.sleep(sleep)
+            robot.turn_degrees(turn_amount,speed_deg_per_second)
+            time.sleep(sleep)
 
         # TODO: 2. Individually implement the code here to use your drive_inches and turn_degrees library methods to
         # drive a polygon with the correct number of sides. (Hint: You will add 3 lines of code. What are they?).
