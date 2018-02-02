@@ -56,7 +56,7 @@ def main():
     btn.on_right = handle_right_button
     btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
-    # TODO: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
+    # Done: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
     # Add a lambda callback for on_backspace.  The syntax of lambda is:
     #   btn.on_backspace = lamdba predefined_inputs: function_name(parameters)
     # You will need to change the predefined_inputs, function_name, and parameters from that syntax template.
@@ -124,7 +124,7 @@ def handle_shutdown(state, dc):
     else:
         dc.running = True
 
-# TODO: 6. Implement the handle_shutdown function.
+# Done: 6. Implement the handle_shutdown function.
 #   Function signature should be:
 #       def handle_shutdown(button_state, dc):
 #   When the button is pressed (state is True)
@@ -138,7 +138,7 @@ def handle_shutdown(state, dc):
 # to instead say "Press Back to exit this program."
 
 
-# TODO: 7. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
+# DOne: 7. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
 #
 # Observations you should make, button events are better because you get called only once per press, however, callbacks
 #   make it a bit tricker to pass data around (which is why we used the DataContainer object).
