@@ -42,7 +42,9 @@ def main():
     # ev3.Leds.all_off()  # Could also use this single command if turning both LEDs off.
     print('Press the Back button on the EV3 to exit this program.')
 
+
     # Buttons on EV3 (the real focus of this module)
+
     btn = ev3.Button()  # Construct the one and only EV3 Button object
     led_colors = [ev3.Leds.BLACK,  # This list is useful for the down button in TO DO 4.
                   ev3.Leds.GREEN,
@@ -52,7 +54,27 @@ def main():
                   ev3.Leds.AMBER]
 
     current_color_index = 0
+
     while True:
+        if btn.left:
+            print("Left is pressed")
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        elif btn.right:
+            print("Right is pressed")
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        elif btn.up:
+            print("Up is pressed")
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+        elif btn.down:
+            print("Down is pressed")
+            ev3.Leds.set_color(ev3.Leds.LEFT, led_colors[current_color_index])
+            ev3.Leds.set_color(ev3.Leds.RIGHT, led_colors[current_color_index])
+            current_color_index += 1
+            if current_color_index == 3:
+                current_color_index = 0
+
+
         # TODO: 3. Implement the left, right, and up buttons as follows:
         #    When the up button is being pressed:
         #      -- print the word "up"
@@ -98,8 +120,9 @@ def main():
         #   same time as the Brickman operating system.  Both are receiving the button events.  That can be changed, but
         #   it's too much trouble to do here.  So instead we just don't use the Enter button.
 
-        if btn.backspace:
+        elif btn.backspace:
             break
+
         time.sleep(0.01)  # Best practice to have a short delay to avoid working too hard between loop iterations.
 
     # Best practice to leave the LEDs on after you finish a program so you don't put away the robot while still on.
