@@ -64,13 +64,27 @@ def main():
 
     # For our standard shutdown button.
     btn = ev3.Button()
+    rc1 = ev3.RemoteControl(channel=1)
+    rc2 = ev3.RemoteControl(channel=2)
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
     btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
     robot.arm_calibration()  # Start with an arm calibration in this program.
+    assert rc1.connected
+    assert rc2.connected
+    assert left_motor.connected
+    assert right_motor.connected
 
     while dc.running:
         # TODO: 5. Process the RemoteControl objects.
         btn.process()
+
+        rc1.process()
+
+        rc1.on_red_up = lambda state: handle_red_up_1(state,dc)
+
+        rc2.process()
         time.sleep(0.01)
 
     # TODO: 2. Have everyone talk about this problem together then pick one  member to modify libs/robot_controller.py
@@ -90,6 +104,11 @@ def main():
 # TODO: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
 #
 # Observations you should make, IR buttons are a fun way to control the robot.
+def handle_red_up_1(button_state,dc):
+    if button_state:
+        ev3.Leds.LEFT
+
+
 
 
 def handle_arm_up_button(button_state, robot):
