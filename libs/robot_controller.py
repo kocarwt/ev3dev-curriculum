@@ -40,7 +40,6 @@ class Snatch3r(object):
         assert self.left_motor.connected
         assert self.right_motor.connected
 
-
         time_s = 1
         while time_s != 0:
             if degrees_to_turn > 0:
