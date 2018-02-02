@@ -106,6 +106,7 @@ def main():
 # Observations you should make, IR buttons are a fun way to control the robot.
 def handle_red_up_1(button_state,dc):
     if button_state:
+        ev3.Leds.LEFT
 
 
 
