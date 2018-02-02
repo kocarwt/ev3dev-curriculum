@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+locals()#!/usr/bin/env python3
 """
 This module lets you practice EV3 drive motor commands using timed delays.
 
