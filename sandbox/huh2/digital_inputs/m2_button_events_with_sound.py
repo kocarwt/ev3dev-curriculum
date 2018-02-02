@@ -51,6 +51,11 @@ def main():
     #   .on_right to call handle_right_button (that function does not exist yet, you will write it in todo4)
     # Here is one for free...
     #  btn.on_up = handle_up_button
+    btn.on_up = lambda state : handle_up_button(state,'up')
+    btn.on_down = lambda state : handle_down_button(state,'down')
+    btn.on_right = lambda state: handle_right_button(state, 'right')
+    btn.on_left = lambda state: handle_left_button(state, 'left')
+    btn.on_backspace = lambda state: handle_shutdown(state,dc)
 
     # TODO: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
     # Add a lambda callback for on_backspace.  The syntax of lambda is:
@@ -82,12 +87,36 @@ def main():
 # Once implemented test your code by trying all four buttons.  Observe the print messages and sounds played.
 #   The recommended test order is up, down, left, then right (each gets more interesting in that order)
 #   When you finish that test hit Back to exit the program.
-def handle_up_button(button_state):
+def handle_up_button(button_state, name):
     """Handle IR / button event."""
     if button_state:
-        print("Up button is pressed")
+        print(name," button is pressed")
+        play_song_by_individual_tones()
     else:
-        print("Up button was released")
+        print(name," button is pressed")
+
+def handle_down_button(button_state, name):
+    if button_state:
+        print(name, " button is pressed")
+        play_song_by_notes_list()
+    else:
+        print(name, " button is pressed")
+
+def handle_left_button(button_state,name):
+    if button_state:
+        print(name," button is pressed")
+        speak()
+    else:
+        print(name," button is pressed")
+
+def handle_right_button(button_state,name):
+    if button_state:
+        print(name," button is pressed")
+        play_wav_file()
+    else:
+        print(name," button is pressed")
+
+
 
 
 # TODO: 6. Implement the handle_shutdown function.
@@ -102,7 +131,10 @@ def handle_up_button(button_state):
 # You can also change the print message that said:
 #    "Press Ctrl C on your keyboard to exit this program (the Back button is not wired up to exit)"
 # to instead say "Press Back to exit this program."
-
+def handle_shutdown(button_state,dc):
+    if button_state:
+        print('back')
+        dc.running = False
 
 # TODO: 7. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.
 #
