@@ -54,8 +54,7 @@ def main():
     btn.on_down = handle_down_button
     btn.on_left = handle_left_button
     btn.on_right = handle_right_button
-
-
+    btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
     # TODO: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
     # Add a lambda callback for on_backspace.  The syntax of lambda is:
@@ -119,6 +118,11 @@ def handle_right_button(button_state):
     else:
         print("Right button was released")
 
+def handle_shutdown(state, dc):
+    if state:
+        dc.running = False
+    else:
+        dc.running = True
 
 # TODO: 6. Implement the handle_shutdown function.
 #   Function signature should be:
