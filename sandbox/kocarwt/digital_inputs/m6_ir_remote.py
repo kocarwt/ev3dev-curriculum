@@ -25,8 +25,8 @@
     -- Pressing the Back button will allow your program to end.  It should stop motors, turn on both green LEDs, and
        then print and say Goodbye.  You will need to implement a new robot method called shutdown to handle this task.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and William Kocar.
+"""  # DOne: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
 import time
@@ -58,19 +58,34 @@ def main():
     robot = robo.Snatch3r()
     dc = DataContainer()
 
-    # TODO: 4. Add the necessary IR handler callbacks as per the instructions above.
+    # Done: 4. Add the necessary IR handler callbacks as per the instructions above.
     # Remote control channel 1 is for driving the crawler tracks around (none of these functions exist yet below).
     # Remote control channel 2 is for moving the arm up and down (all of these functions already exist below).
 
     # For our standard shutdown button.
-    btn = ev3.Button()
-    btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
-    robot.arm_calibration()  # Start with an arm calibration in this program.
+    btn = ev3.Button()
+    robot.arm_calibration()
+    btn.on_backspace = lambda state: handle_shutdown(state, dc)
+    rc1 = ev3.RemoteControl(channel=1)
+    rc2 = ev3.RemoteControl(channel=2)
+    assert rc1.connected
+    assert rc2.connected
+    rc1.on_red_up = lambda state: left_led_green(state,robot,rc1)
+    rc1.on_red_down =lambda state: left_led_red(state,robot,rc1)
+    rc1.on_blue_up = lambda state: right_led_green(state,robot,rc1)
+    rc1.on_blue_down = lambda state: right_led_red(state,robot,rc1)
+    rc2.on_red_up = lambda state: robot.arm_up()
+    rc2.on_red_down = lambda state: robot.arm_down()
+    rc2.on_blue_up = lambda state: robot.arm_calibration()
+
+
 
     while dc.running:
         # TODO: 5. Process the RemoteControl objects.
         btn.process()
+        rc1.process()
+        rc2.process()
         time.sleep(0.01)
 
     # TODO: 2. Have everyone talk about this problem together then pick one  member to modify libs/robot_controller.py
@@ -78,7 +93,7 @@ def main():
     # been tested and shown to work, then have that person commit their work.  All other team members need to do a
     # VCS --> Update project...
     # Once the library is implemented any team member should be able to run his code as stated in todo3.
-    robot.shutdown()
+    robot.shutdown(dc)
 
 # ----------------------------------------------------------------------
 # Event handlers
@@ -91,6 +106,34 @@ def main():
 #
 # Observations you should make, IR buttons are a fun way to control the robot.
 
+def left_led_green(state,robot,rc1):
+    if state:
+        robot.left_motor.run_forever(speed_sp=600)
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+    robot.left_motor.stop(stop_action=robot.left_motor.STOP_ACTION_BRAKE)
+    ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+
+
+def left_led_red(state, robot,rc1):
+    if state:
+        robot.left_motor.run_forever(speed_sp=-600)
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+    robot.left_motor.stop(stop_action=robot.left_motor.STOP_ACTION_BRAKE)
+    ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+
+def right_led_red(state, robot,rc1):
+        if state:
+            robot.right_motor.run_forever(speed_sp=-600)
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        robot.right_motor.stop(stop_action=robot.left_motor.STOP_ACTION_BRAKE)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+
+def right_led_green(state, robot,rc1):
+    if state:
+        robot.right_motor.run_forever(speed_sp=600)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+    robot.right_motor.stop(stop_action=robot.left_motor.STOP_ACTION_BRAKE)
+    ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
 
 def handle_arm_up_button(button_state, robot):
     """
