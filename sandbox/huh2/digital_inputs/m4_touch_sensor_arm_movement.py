@@ -100,7 +100,7 @@ def arm_up(arm_motor, touch_sensor):
     # Make a beep sound
 
     # Code that attempts to do this task but has many bugs.  Fix them!
-    arm_motor.run_to_rel_pos(position_sp=14.2, speed_sp=MAX_SPEED)
+    arm_motor.run_forever(speed_sp=MAX_SPEED)
     while touch_sensor.is_pressed:
         time.sleep(0.01)
     arm_motor.stop()
@@ -119,8 +119,8 @@ def arm_down(arm_motor):
     # Make a beep sound
 
     # Code that attempts to do this task but has bugs.  Fix them.
-    arm_motor.run_to_abs_pos()
-    arm_motor.wait_while(ev3.Motor.STATE_HOLDING)  # Blocks until the motor finishes running
+    arm_motor.run_to_abs_pos(position_sp=0, speed_sp=MAX_SPEED)
+    arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
 
     # TODO: 6. After you fix the bugs in the three arm movement commands demo your code to a TA or instructor.
     #
