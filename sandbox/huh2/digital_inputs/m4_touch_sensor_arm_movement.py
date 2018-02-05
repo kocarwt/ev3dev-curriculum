@@ -35,11 +35,11 @@ def main():
             # arm_calibration(arm_motor, touch_sensor)
         elif command_to_run == 'u':
             print("Move the arm to the up position")
-            print("TODO: 4 is to delete this print statement, uncomment the line below, and implement that function.")
+            arm_up(arm_motor, touch_sensor)
             # arm_up(arm_motor, touch_sensor)
         elif command_to_run == 'd':
             print("Move the arm to the down position")
-            print("TODO: 5 is to delete this print statement, uncomment the line below, and implement that function.")
+            arm_down(arm_motor)
             # arm_down(arm_motor)
         elif command_to_run == 'q':
             break
@@ -101,9 +101,9 @@ def arm_up(arm_motor, touch_sensor):
 
     # Code that attempts to do this task but has many bugs.  Fix them!
     arm_motor.run_forever(speed_sp=MAX_SPEED)
-    while touch_sensor.is_pressed:
+    while not touch_sensor.is_pressed:
         time.sleep(0.01)
-    arm_motor.stop()
+    arm_motor.stop(stop_action='brake')
 
 
 def arm_down(arm_motor):
