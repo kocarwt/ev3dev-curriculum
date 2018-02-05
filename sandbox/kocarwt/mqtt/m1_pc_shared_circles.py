@@ -95,10 +95,10 @@ def left_mouse_click(event, mqtt_client):
 
     # Optional test: If you just want to see circles purely local to your computer the four lines below would work.
     # You could uncomment it to see it temporarily, but make sure to comment it back out before todo7 below.
-    canvas = event.widget
-    canvas.create_oval(event.x - 10, event.y - 10,
-                       event.x + 10, event.y + 10,
-                       fill=my_color, width=3)
+    # canvas = event.widget
+    # canvas.create_oval(event.x - 10, event.y - 10,
+    #                    event.x + 10, event.y + 10,
+    #                    fill=my_color, width=3)
     # Repeated: If you uncommented the code above to test it, make sure to comment it back out before todo7 below.
 
     # MQTT draw
@@ -109,7 +109,7 @@ def left_mouse_click(event, mqtt_client):
     # Review the lecture notes about the two parameters passed into the mqtt_client.send_message method if needed
     # All of your teammates should receive the message and create a circle of your color at your click location.
     # Additionally you will receive your own message and draw a circle in your color too.
-
+    mqtt_client.send_message('on_circle_draw', [my_color, event.x,event.y])
     # TODO: 8. Help get everyone on your team running this program at the same time.
     # You should be able to see circles on your computer from everyone else on your team.
     # Try to draw the first letter of your name in circles. :)
