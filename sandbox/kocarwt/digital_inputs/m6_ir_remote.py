@@ -72,7 +72,7 @@ def main():
     assert rc1.connected
     assert rc2.connected
     rc1.on_red_up = lambda state: left_led_green(state,robot,rc1)
-    rc1.on_red_down =lambda state: left_led_red(state,robot,rc1)
+    rc1.on_red_down = lambda state: left_led_red(state,robot,rc1)
     rc1.on_blue_up = lambda state: right_led_green(state,robot,rc1)
     rc1.on_blue_down = lambda state: right_led_red(state,robot,rc1)
     rc2.on_red_up = lambda state: robot.arm_up()
@@ -93,7 +93,7 @@ def main():
     # been tested and shown to work, then have that person commit their work.  All other team members need to do a
     # VCS --> Update project...
     # Once the library is implemented any team member should be able to run his code as stated in todo3.
-    robot.shutdown(dc)
+    robot.shutdown()
 
 # ----------------------------------------------------------------------
 # Event handlers
