@@ -80,9 +80,10 @@ class Snatch3r(object):
         self.arm_motor.position = 0
 
     def arm_up(self):
+
         assert self.arm_motor.connected
         assert self.touch_sensor
-        self.arm_motor.run_to_rel_pos(position_sp=14.2 * 360, speed_sp=MAX_SPEED)
+        self.arm_motor.run_to_rel_pos(position_sp=14.5 * 360, speed_sp=MAX_SPEED)
         while not self.touch_sensor.is_pressed:
             time.sleep(0.01)
         self.arm_motor.stop(stop_action="brake")
@@ -93,6 +94,8 @@ class Snatch3r(object):
         self.arm_motor.run_to_abs_pos(position_sp=0)
         self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
         ev3.Sound.beep().wait()
+
+
 
 
 # ----------------------------------------------------------------------
