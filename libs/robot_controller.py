@@ -94,6 +94,7 @@ class Snatch3r(object):
         self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
         ev3.Sound.beep().wait()
     def shutdown(self,dc):
+        dc.running = False
 
 
 
