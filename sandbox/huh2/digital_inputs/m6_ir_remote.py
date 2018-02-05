@@ -33,8 +33,6 @@ import time
 
 import robot_controller as robo
 
-robot = robo.Snatch3r()
-
 # Note that todo2 is farther down in the code.  That method needs to be written before you do todo3.
 # TODO: 3. Have someone on your team run this program on the EV3 and make sure everyone understands the code.
 # Can you see what the robot does and explain what each line of code is doing? Talk as a group to make sure.
@@ -68,20 +66,15 @@ def main():
     btn = ev3.Button()
     rc1 = ev3.RemoteControl(channel=1)
     rc2 = ev3.RemoteControl(channel=2)
-
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
     btn.on_backspace = lambda state: handle_shutdown(state, dc)
-    rc1.on_red_up = lambda state: handle_red_up_1(state)
-    rc1.on_red_down = lambda state: handle_red_down_1(state)
-    rc1.on_blue_up = lambda state: handle_blue_up_1(state)
-    rc1.on_blue_down = lambda state: handle_blue_down_1(state)
 
-    rc2.on_red_up = lambda state: handle_red_up_2(state)
-    rc2.on_red_down = lambda state: handle_red_down_2(state)
-    rc2.on_blue_up = lambda state: handle_blue_up_2(state)
     robot.arm_calibration()  # Start with an arm calibration in this program.
     assert rc1.connected
     assert rc2.connected
-
+    assert left_motor.connected
+    assert right_motor.connected
 
     while dc.running:
         # TODO: 5. Process the RemoteControl objects.
@@ -89,6 +82,7 @@ def main():
 
         rc1.process()
 
+        rc1.on_red_up = lambda state: handle_red_up_1(state,dc)
 
         rc2.process()
         time.sleep(0.01)
@@ -98,7 +92,7 @@ def main():
     # been tested and shown to work, then have that person commit their work.  All other team members need to do a
     # VCS --> Update project...
     # Once the library is implemented any team member should be able to run his code as stated in todo3.
-
+    robot.shutdown()
 
 # ----------------------------------------------------------------------
 # Event handlers
@@ -110,51 +104,12 @@ def main():
 # TODO: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
 #
 # Observations you should make, IR buttons are a fun way to control the robot.
-def handle_red_up_1(button_state,):
+def handle_red_up_1(button_state,dc):
     if button_state:
-        ev3.Leds.set_color(ev3.Leds.LEFT,ev3.Leds.GREEN)
-        robot.left_motor.run_forever(speed_sp=600)
-        time.sleep(0.5)
-        robot.left_motor.stop(stop_action='brake')
+        ev3.Leds.LEFT
 
 
-def handle_red_down_1(button_state):
-    if button_state:
-        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
-        robot.left_motor.run_forever(speed_sp=-600)
-        time.sleep(0.5)
-        robot.left_motor.stop(stop_action='brake')
 
-
-def handle_blue_up_1(button_state):
-    if button_state:
-        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
-        robot.right_motor.run_forever(speed_sp=600)
-        time.sleep(0.5)
-        robot.right_motor.stop(stop_action='brake')
-
-
-def handle_blue_down_1(button_state):
-    if button_state:
-        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-        robot.right_motor.run_forever(speed_sp=-600)
-        time.sleep(0.5)
-        robot.right_motor.stop(stop_action='brake')
-
-
-def handle_red_up_2(button_state):
-    if button_state:
-        robot.arm_up()
-
-
-def handle_red_down_2(button_state):
-    if button_state:
-        robot.arm_down()
-
-
-def handle_blue_up_2(button_state,):
-    if button_state:
-        robot.arm_calibration()
 
 def handle_arm_up_button(button_state, robot):
     """
