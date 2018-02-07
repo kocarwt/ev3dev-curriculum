@@ -31,14 +31,14 @@ class MyDelegate(object):
 # TODO: 3. Create a method named guess_response within MyDelegate.
 # guess_response needs to receive self and a string, feel free to call the string parameter message_from_ev3
 # within the body of the method print message_from_ev3.  That's it.  You simply need to hear what EV3 tells you.
-    def guess_response(self,string):
-        print(string)
+    def guess_response(self,message_from_ev3):
+        print(message_from_ev3)
 
 def main():
     # TODO: 4. Create a my_delegate object from your MyDelegate class
     # Create an mqtt_client object from the com.MqttClient class passing in my_delegate
     # connect_to_ev3
-    my_delegate = MyDelegate
+    my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
     mqtt_client.connect_to_ev3()
 
