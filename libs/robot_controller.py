@@ -23,6 +23,9 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
+        self.color_sensor = ev3.ColorSensor()
+
+        assert self.color_sensor
 
     def drive_inches(self, distance, speed):
         """This is called by m3_drive_inches_via_library and uses its inputs to tell the robot how fast to go and how
