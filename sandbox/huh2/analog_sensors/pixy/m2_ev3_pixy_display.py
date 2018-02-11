@@ -26,17 +26,26 @@ def main():
 
     robot = robo.Snatch3r()
     robot.pixy.mode = "SIG1"
-
+    mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_pc()
     while not robot.touch_sensor.is_pressed:
 
         # TODO: 3. Read the Pixy values for x, y, width, and height
         # Print the values (much like the print_pixy_readings example)
+        width = robot.pixy.value(3)
+        height = robot.pixy.value(4)
+        x = robot.pixy.value(1)
+        y = robot.pixy.value(2)
 
+        print("value1: X", x)
+        print("value2: Y", y)
+        print("value3: Width", width)
+        print("value4: Height", height)
         # TODO: 4. Send the Pixy values to the PC by calling the on_rectangle_update method
         # If you open m2_pc_pixy_display you can see the parameters for that method [x, y, width, height]
 
-
-
+        mqtt_client.send_message("on_rectangle_update", [x, y, width, height])
+        time.sleep(0.25)
 
         time.sleep(0.25)
 

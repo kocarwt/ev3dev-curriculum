@@ -14,6 +14,7 @@
 
 import ev3dev.ev3 as ev3
 import time
+import math
 MAX_SPEED = 900
 
 class Snatch3r(object):
@@ -24,8 +25,11 @@ class Snatch3r(object):
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
         self.color_sensor = ev3.ColorSensor()
+        self.ir_sensor = ev3.InfraredSensor()
+        self.beacon_seeker = ev3.BeaconSeeker(channel=1)
 
         assert self.color_sensor
+        assert self.ir_sensor
 
     def drive_inches(self, distance, speed):
         """This is called by m3_drive_inches_via_library and uses its inputs to tell the robot how fast to go and how
@@ -125,7 +129,45 @@ class Snatch3r(object):
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action='brake')
 
+    def seek_beacon(self):
 
-# ----------------------------------------------------------------------
-# Calls  main  to start the ball rolling.
-# ----------------------------------------------------------------------
+            forward_speed = 200
+            turn_speed = 100
+
+            beacon_seeker = ev3.BeaconSeeker(channel=1)
+
+            while not self.touch_sensor.is_pressed:
+                current_heading = beacon_seeker.heading
+                current_distance = beacon_seeker.distance
+                if current_distance == -128:
+                    print("IR Remote not found. Distance is -128")
+                    self.stop()
+                else:
+
+                    if math.fabs(current_heading) < 2:
+                        print("On the right heading. Distance: ", current_distance)
+                        if math.fabs(current_distance) == 0:
+                            print("you have found the beacon!")
+                            self.stop()
+                            self.drive_inches(2.7,forward_speed)
+                            return True
+                        else:
+                            self.forward(forward_speed, forward_speed)
+
+                    if 2 < math.fabs(current_heading) < 10:
+                        print("Adjusting heading: ", current_heading)
+                        if current_heading < 0:
+                            self.left(-turn_speed, -turn_speed)
+                        else:
+                            self.right(-turn_speed, -turn_speed)
+
+                    if math.fabs(current_heading) > 10:
+                        print("Heading is too far off to fix: ", current_heading)
+                        self.stop()
+                        print('Heading too far off')
+
+                time.sleep(0.2)
+
+            print("Abandon ship!")
+            self.stop()
+            return False

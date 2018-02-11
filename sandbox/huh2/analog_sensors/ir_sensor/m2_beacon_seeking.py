@@ -61,12 +61,14 @@ def seek_beacon(robot):
     forward_speed = 300
     turn_speed = 100
 
+    beacon_seeker = ev3.BeaconSeeker(channel=1)
+
     while not robot.touch_sensor.is_pressed:
         # The touch sensor can be used to abort the attempt (sometimes handy during testing)
 
         # TODO: 3. Use the beacon_seeker object to get the current heading and distance.
-        current_heading = 0  # use the beacon_seeker heading
-        current_distance = 0  # use the beacon_seeker distance
+        current_heading = beacon_seeker.heading  # use the beacon_seeker heading
+        current_distance = beacon_seeker.distance  # use the beacon_seeker distance
         if current_distance == -128:
             # If the IR Remote is not found just sit idle for this program until it is moved.
             print("IR Remote not found. Distance is -128")
@@ -93,7 +95,24 @@ def seek_beacon(robot):
                 # Close enough of a heading to move forward
                 print("On the right heading. Distance: ", current_distance)
                 # You add more!
+                if math.fabs(current_distance) == 0:
+                    print("you have found the beacon!")
+                    robot.stop()
+                    return True
+                else:
+                    robot.forward(forward_speed,forward_speed)
 
+            if math.fabs(current_heading) >2 and math.fabs(current_heading) < 10:
+                print("Adjusting heading: ", current_heading)
+                if current_heading < 0:
+                    robot.left(-turn_speed,-turn_speed)
+                else:
+                    robot.right(-turn_speed,-turn_speed)
+
+            if math.fabs(current_heading) > 10:
+                print("Heading is too far off to fix: ", current_heading)
+                robot.stop()
+                print('Heading too far off')
 
 
 
