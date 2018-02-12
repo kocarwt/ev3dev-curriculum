@@ -18,6 +18,14 @@ def main():
     main_frame = ttk.Frame(root, padding=20, relief='raised')
     main_frame.grid()
 
+    main_frame2 = ttk.Frame(root, padding=5)
+    main_frame2.grid()
+
+    # The values from the Pixy range from 0 to 319 for the x and 0 to 199 for the y.
+    canvas = tkinter.Canvas(main_frame2, background="lightgray", width=450, height=300)
+    canvas.grid(columnspan=2)
+
+
     left_speed_label = ttk.Label(main_frame, text="Left")
     left_speed_label.grid(row=0, column=0)
     left_speed_entry = ttk.Entry(main_frame, width=8)
@@ -90,7 +98,7 @@ def main():
 # ----------------------------------------------------------------------
 # Tkinter callbacks
 # ----------------------------------------------------------------------
-# 
+#
 
 # Arm command callbacks
 def handle_forward_button(mqtt_client, left_speed_entry, right_speed_entry):
