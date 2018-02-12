@@ -59,10 +59,10 @@ def main():
     # For our standard shutdown button.
     btn = ev3.Button()
     # TODO: 2. Uncomment the lines below to setup event handlers for these buttons.
-    # btn.on_up = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_RED)
-    # btn.on_down = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_BLUE)
-    # btn.on_left = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_BLACK)
-    # btn.on_right = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_WHITE)
+    btn.on_up = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_RED)
+    btn.on_down = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_BLUE)
+    btn.on_left = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_BLACK)
+    btn.on_right = lambda state: drive_to_color(state, robot, ev3.ColorSensor.COLOR_WHITE)
     btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
     while dc.running:
@@ -86,8 +86,10 @@ def drive_to_color(button_state, robot, color_to_seek):
       :type robot: robo.Snatch3r
       :type color_to_seek: int
     """
+
     if button_state:
         ev3.Sound.speak("Seeking " + COLOR_NAMES[color_to_seek]).wait()
+
 
         # TODO: 3. Implement the task as stated in this module's initial comment block
         # It is recommended that you add to your Snatch3r class's constructor the color_sensor, as shown
