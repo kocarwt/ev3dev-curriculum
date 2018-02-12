@@ -26,6 +26,7 @@ def main():
 
     robot = robo.Snatch3r()
     robot.pixy.mode = "SIG1"
+
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_pc()
     while not robot.touch_sensor.is_pressed:
@@ -47,7 +48,6 @@ def main():
         mqtt_client.send_message("on_rectangle_update", [x, y, width, height])
         time.sleep(0.25)
 
-        time.sleep(0.25)
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()

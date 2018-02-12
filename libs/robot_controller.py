@@ -27,10 +27,11 @@ class Snatch3r(object):
         self.color_sensor = ev3.ColorSensor()
         self.ir_sensor = ev3.InfraredSensor()
         self.beacon_seeker = ev3.BeaconSeeker(channel=1)
+        self.pixy = ev3.Sensor(driver_name='pixy-lego')
 
         assert self.color_sensor
         assert self.ir_sensor
-
+        assert self.pixy
     def drive_inches(self, distance, speed):
         """This is called by m3_drive_inches_via_library and uses its inputs to tell the robot how fast to go and how
         far using a class def'"""

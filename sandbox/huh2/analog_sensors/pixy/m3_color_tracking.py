@@ -40,16 +40,17 @@ def main():
         #   If the Pixy x value is between 150 and 170 stop the robot
         # Continuously track the color until the touch sensor is pressed to end the program.
         if x < 150:
-            robot.drive_forever(-turn_speed, turn_speed)
+            robot.right(turn_speed, turn_speed)
         elif 150 < x < 170:
             robot.stop()
         else:
-            robot.drive_forever(turn_speed, -turn_speed)
+            robot.left(turn_speed, turn_speed)
 
 
         time.sleep(0.25)
 
     print("Goodbye!")
+    robot.stop()
     ev3.Sound.speak("Goodbye").wait()
 
 # TODO: 4. Call over a TA or instructor to sign your team's checkoff sheet.

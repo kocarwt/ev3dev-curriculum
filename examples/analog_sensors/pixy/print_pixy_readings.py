@@ -27,7 +27,7 @@ def main():
     pixy.mode = "SIG1"
 
     while not touch_sensor.is_pressed:
-        print("(X, Y) = ({}, {})    Width = {} Height = {}".format(
+        print("(X, Y) = ({}, {}) Width = {} Height = {}".format(
             pixy.value(1), pixy.value(2), pixy.value(3), pixy.value(4)))
         time.sleep(0.5)
 
