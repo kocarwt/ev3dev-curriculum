@@ -100,14 +100,14 @@ class Snatch3r(object):
 
         assert self.arm_motor.connected
         assert self.touch_sensor
-        self.arm_motor.run_to_rel_pos(position_sp=5 * 360, speed_sp=MAX_SPEED)
+        self.arm_motor.run_to_rel_pos(position_sp=7 * 360, speed_sp=MAX_SPEED)
 
 
     def arm_down(self):
         assert self.arm_motor.connected
         self.arm_motor.run_to_abs_pos(position_sp=0)
         self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
-        ev3.Sound.beep().wait()
+
 
     def loop_forever(self):
         self.running = True
