@@ -96,6 +96,13 @@ class Snatch3r(object):
         self.arm_motor.stop(stop_action="brake")
         ev3.Sound.beep().wait()
 
+    def arm_close(self):
+
+        assert self.arm_motor.connected
+        assert self.touch_sensor
+        self.arm_motor.run_to_rel_pos(position_sp=5 * 360, speed_sp=MAX_SPEED)
+
+
     def arm_down(self):
         assert self.arm_motor.connected
         self.arm_motor.run_to_abs_pos(position_sp=0)
