@@ -3,13 +3,18 @@ from tkinter import ttk
 import mqtt_remote_method_calls as com
 
 
+class MyDelegate(object):
+
+
+    def line_response(message):
+        print(message)
+
 
 def main():
     # DONE: 2. Setup an mqtt_client.  Notice that since you don't need to receive any messages you do NOT need to have
     # a MyDelegate class.  Simply construct the MqttClient with no parameter in the constructor (easy).
-    mqtt_client = com.MqttClient()
+    mqtt_client = com.MqttClient(MyDelegate)
     mqtt_client.connect_to_ev3("mosquitto.csse.rose-hulman.edu", 8)
-
 
     root = tkinter.Tk()
     root.title("MQTT Remote")
@@ -31,9 +36,8 @@ def main():
 
     slider_label = ttk.Label(main_frame, text="Speed")
     slider_label.grid(row=0,column=1)
-    slider = tkinter.Scale(main_frame,from_=100 ,to=600, orient=tkinter.HORIZONTAL )
-    slider.grid(row=1, column = 1)
-
+    slider = tkinter.Scale(main_frame,from_=100, to=600, orient=tkinter.HORIZONTAL )
+    slider.grid(row=1, column=1)
 
     # DONE: 3. Implement the callbacks for the drive buttons. Set both the click and shortcut key callbacks.
     #
@@ -79,6 +83,7 @@ def main():
     open_button = ttk.Button(main_frame, text="Open")
     open_button.grid(row=4, column=2)
     open_button['command'] = lambda: handle_open_button(mqtt_client)
+
     root.mainloop()
 
 

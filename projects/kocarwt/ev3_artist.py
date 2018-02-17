@@ -1,6 +1,5 @@
 import mqtt_remote_method_calls as com
 import robot_controller as robo
-import robot_controller as robo
 import ev3dev.ev3 as ev3
 
 class DataContainer(object):
@@ -19,6 +18,14 @@ def main():
     # mqtt_client.connect_to_pc("35.194.247.175")  # Off campus IP address of a GCP broker
     while dc.running:
         btn.process()  # Calls a function that has a while True: loop within it to avoid letting the program end.
+        if robot.color_sensor.color == ev3.ColorSensor.COLOR_RED:
+            robot.stop()
+            while robot.color_sensor.color == ev3.ColorSensor.COLOR_RED:
+                robot.backward(200,200)
+            robot.stop()
+            mqtt_client.send_message("line_response",
+                                          ["Draw within the lines"])
+
 
 
 def handle_shutdown(button_state, dc):
