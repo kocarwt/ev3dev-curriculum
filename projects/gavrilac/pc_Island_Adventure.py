@@ -43,6 +43,7 @@ def main():
 
     root.mainloop()
 
+
 def buttons(mqtt_client, drive_color, LED_color_entry):
     mqtt_client.send_message("drive_to_the_island", [drive_color.get(), LED_color_entry.get()])
 def quit_program(mqtt_client, shutdown_ev3):

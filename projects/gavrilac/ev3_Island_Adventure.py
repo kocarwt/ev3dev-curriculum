@@ -15,6 +15,7 @@ class MyDelegate(object):
     def __init__(self):
         self.robot = robo.Snatch3r()
 
+
     def loop_forever(self):
         self.running = True
         while self.running:
