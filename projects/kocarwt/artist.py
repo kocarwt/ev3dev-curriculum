@@ -29,10 +29,10 @@ def main():
     canvas = tkinter.Canvas(main_frame2, background="lightgray", width=450, height=300)
     canvas.grid(columnspan=2)
 
-    canvas.create_line(225,150,265,150)
-    canvas.create_line(265,150,265,190)
-    canvas.create_line(265,190,225,190)
-    canvas.create_line(225,150,225,190)
+    canvas.create_line(225,150,315,150)
+    canvas.create_line(315,150,315,210)
+    canvas.create_line(315,210,225,210)
+    canvas.create_line(225,150,225,210)
 
     slider_label = ttk.Label(main_frame, text="Speed")
     slider_label.grid(row=0,column=1)
